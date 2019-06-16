@@ -1,10 +1,14 @@
 package com.bressan.sample.batch.util;
 
+import java.util.Random;
+
 public class ThreadSleep extends Thread {
 
     public void run() {
+        Random r = new Random();
         try {
-            Thread.sleep(1000);
+            int x = r.nextInt(2000 - 10) + 10;
+            Thread.sleep(x);
         } catch (InterruptedException e) {
             System.out.println(e);
         }

@@ -5,10 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
+import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 
+
 @Slf4j
 @Configuration
 public class JobConfiguration {
@@ -27,9 +29,9 @@ public class JobConfiguration {
     @Autowired
     private StepBuilderFactory stepBuilderFactory;
     @Autowired
-    private JobLauncher jobLauncher;
-    @Autowired
     private Job docETLJob ;
+    @Autowired
+    private JobRepository jobRepository;
 
     @Bean
     public Job docETLJob(Step step) {
@@ -55,7 +57,7 @@ public class JobConfiguration {
 
     public TaskExecutor taskExecutor() {
         SimpleAsyncTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor();
-        taskExecutor.setConcurrencyLimit(5);
+        taskExecutor.setConcurrencyLimit(4);
         return taskExecutor;
     }
 
@@ -63,6 +65,10 @@ public class JobConfiguration {
         final JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("time", System.currentTimeMillis())
                 .toJobParameters();
+        SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
+        jobLauncher.setJobRepository(jobRepository);
+        jobLauncher.setTaskExecutor(taskExecutor());
         jobLauncher.run(docETLJob, jobParameters);
     }
+
 }
