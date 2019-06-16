@@ -41,6 +41,7 @@ public class DocReader implements ItemReader<Doc> {
     }
 
     private List<Doc> initialize() {
+        index = 0;
         log.info("Reading docs from database");
 
         List<Doc> docs = docRepository.findAll();

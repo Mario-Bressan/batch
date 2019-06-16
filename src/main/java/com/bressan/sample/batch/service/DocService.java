@@ -12,7 +12,7 @@ public class DocService {
 
     public Doc docProcessing(Doc doc) {
         ThreadSleep.startThread();
-        doc.setDescricao(doc.getDescricao().toUpperCase());
+        doc.setDescription(doc.getDescription().toUpperCase());
         return doc;
     }
 }

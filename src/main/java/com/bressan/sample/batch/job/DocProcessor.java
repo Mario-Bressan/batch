@@ -18,9 +18,9 @@ public class DocProcessor implements ItemProcessor<Doc, Doc> {
 
     @Override
     public Doc process(Doc doc) throws Exception {
-        log.info("Starting process: " + System.currentTimeMillis() + "doc_id: "+ doc.getId());
+        log.info("Starting process: " + System.currentTimeMillis() + " doc_id: "+ doc.getId());
         doc = docService.docProcessing(doc);
-        log.info("Ending   process: " + System.currentTimeMillis() + "doc_id: "+ doc.getId());
+        log.info("Ending   process: " + System.currentTimeMillis() + " doc_id: "+ doc.getId());
         return doc;
     }
 }

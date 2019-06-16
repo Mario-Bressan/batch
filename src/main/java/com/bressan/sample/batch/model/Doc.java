@@ -15,5 +15,5 @@ public class Doc {
     @Id
     @Column(name = "id_doc")
     private Integer id;
-    private String descricao;
+    private String description;
 }

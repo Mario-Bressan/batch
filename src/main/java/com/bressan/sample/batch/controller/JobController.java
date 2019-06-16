@@ -19,7 +19,7 @@ public class JobController {
     @GetMapping
     public String lauchJob() {
         try {
-            jobConfiguration.setJobLauncher();
+            jobConfiguration.jobLaucher();
 
         } catch (Exception e) {
             log.error("Erro ao iniciar o job. ", e);
